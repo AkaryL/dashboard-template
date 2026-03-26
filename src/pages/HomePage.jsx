@@ -1,265 +1,224 @@
-import { Link } from "react-router-dom";
-import BreakingNewsBar from "../components/BreakingNewsBar";
-import SectionTitle from "../components/SectionTitle";
-import ArticleCard from "../components/ArticleCard";
 import {
-  breakingNews,
-  heroArticle,
-  latestNews,
-  podcastItems,
-  newsData,
-} from "../data/newsData";
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, AreaChart, Area, RadarChart, Radar,
+  PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+} from "recharts";
+import SectionTitle from "../components/SectionTitle";
+import MetricsBar from "../components/MetricsBar";
+import ChartCard from "../components/ChartCard";
+import {
+  kpis,
+  aprobacionHistorico,
+  percepcionRadar,
+  sentimientoTendencia,
+  segmentacionPolitica,
+  municipiosClave,
+  temasVirales,
+  transparenciaObras,
+} from "../data/dashboardData";
 
-const worldNews = newsData["World News"] || [];
-const technologyNews = newsData["Technology"] || [];
-const podcasts = podcastItems;
+const TT = {
+  contentStyle: { backgroundColor: "#fff", border: "1px solid #e0e0e0", borderRadius: "4px" },
+  labelStyle: { color: "#1a1a1a" },
+  itemStyle: { color: "#1a1a1a" },
+};
 
 function HomePage() {
   return (
-    <div className="max-w-[1200px] mx-auto px-6 pb-16">
-      {/* A) Breaking News Bar */}
-      <section className="py-6">
-        <BreakingNewsBar items={breakingNews} />
+    <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pb-10 sm:pb-16">
+      {/* A) KPIs */}
+      <section className="py-4 sm:py-6">
+        <MetricsBar items={kpis} />
       </section>
 
-      {/* B) Hero Article Section */}
-      <section className="mb-14">
-        <div className="relative w-full overflow-hidden">
-          <Link to={`/article/${heroArticle.slug}`}>
-            <img
-              src={heroArticle.image}
-              alt={heroArticle.title}
-              className="w-full h-[480px] object-cover"
-            />
-          </Link>
-          <div className="absolute top-4 left-4 flex items-center gap-3">
-            <button className="w-9 h-9 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-gray-700"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="absolute top-4 right-4">
-            <span className="bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-sm uppercase tracking-wide">
-              Gabriel
-            </span>
-          </div>
-        </div>
+      {/* B) Aprobacion + Percepcion */}
+      <section className="mb-8 sm:mb-14">
+        <SectionTitle title="Panorama General" subtitle="Resumen ejecutivo del estado de Jalisco" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+          <ChartCard title="Indice de Aprobacion" subtitle="Ultimos 7 meses" className="md:col-span-2">
+            <ResponsiveContainer width="100%" height={240}>
+              <AreaChart data={aprobacionHistorico}>
+                <defs>
+                  <linearGradient id="gradAprobacion" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#e63946" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#e63946" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="mes" stroke="#888" fontSize={11} />
+                <YAxis stroke="#888" fontSize={11} domain={[30, 70]} />
+                <Tooltip {...TT} />
+                <Area type="monotone" dataKey="aprobacion" stroke="#e63946" fill="url(#gradAprobacion)" strokeWidth={2} name="Aprobacion %" />
+                <Area type="monotone" dataKey="desaprobacion" stroke="#888" fill="none" strokeWidth={1.5} strokeDasharray="4 4" name="Desaprobacion %" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartCard>
 
-        <div className="mt-4 flex items-center gap-3">
-          <span className="text-[11px] font-semibold uppercase tracking-wider border border-gray-300 px-3 py-1 text-gray-600">
-            Culture
-          </span>
-          <span className="text-[11px] font-semibold uppercase tracking-wider border border-gray-300 px-3 py-1 text-gray-600">
-            Guy Hawkins
-          </span>
+          <ChartCard title="Percepcion por Tema" subtitle="Satisfaccion ciudadana">
+            <ResponsiveContainer width="100%" height={240}>
+              <RadarChart data={percepcionRadar} outerRadius="70%">
+                <PolarGrid stroke="#e0e0e0" />
+                <PolarAngleAxis dataKey="tema" stroke="#888" fontSize={10} />
+                <PolarRadiusAxis stroke="#e0e0e0" domain={[0, 100]} fontSize={9} />
+                <Radar name="Percepcion" dataKey="A" stroke="#e63946" fill="#e63946" fillOpacity={0.15} strokeWidth={2} />
+              </RadarChart>
+            </ResponsiveContainer>
+          </ChartCard>
         </div>
-
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-sm text-gray-500">Sep 9, 2024</span>
-          <Link
-            to={`/article/${heroArticle.slug}`}
-            className="text-sm font-medium text-gray-700 hover:text-black transition no-underline"
-          >
-            Read Article
-          </Link>
-        </div>
-
-        <h1 className="mt-3 font-serif text-3xl md:text-4xl font-bold leading-tight text-gray-900">
-          <Link to={`/article/${heroArticle.slug}`} className="hover:underline no-underline text-gray-900">
-            {heroArticle.title}
-          </Link>
-        </h1>
       </section>
 
-      {/* C) Latest News Section */}
-      <section className="mb-14">
-        <SectionTitle title="LATEST NEWS" link="/world-news" />
+      {/* C) Sentimiento + Segmentacion */}
+      <section className="mb-8 sm:mb-14">
+        <SectionTitle title="Inteligencia Digital" subtitle="Sentimiento en redes sociales y segmentacion politica" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+          <ChartCard title="Sentimiento en Redes Sociales" subtitle="Ultima semana" className="md:col-span-2">
+            <ResponsiveContainer width="100%" height={220}>
+              <AreaChart data={sentimientoTendencia}>
+                <defs>
+                  <linearGradient id="gradPos" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#16a34a" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#16a34a" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="gradNeg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#e63946" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#e63946" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="fecha" stroke="#888" fontSize={11} />
+                <YAxis stroke="#888" fontSize={11} />
+                <Tooltip {...TT} />
+                <Area type="monotone" dataKey="positivo" stroke="#16a34a" fill="url(#gradPos)" strokeWidth={2} name="Positivo %" />
+                <Area type="monotone" dataKey="neutro" stroke="#888" fill="none" strokeWidth={1.5} strokeDasharray="4 4" name="Neutro %" />
+                <Area type="monotone" dataKey="negativo" stroke="#e63946" fill="url(#gradNeg)" strokeWidth={2} name="Negativo %" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartCard>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          {/* Featured article - spans 2 columns */}
-          {latestNews[0] && (
-            <div className="lg:col-span-2">
-              <Link
-                to={`/article/${latestNews[0].slug}`}
-                className="group flex flex-col md:flex-row gap-5 no-underline"
-              >
-                <div className="md:w-1/2 overflow-hidden">
-                  <img
-                    src={latestNews[0].image}
-                    alt={latestNews[0].title}
-                    className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="md:w-1/2 flex flex-col justify-center">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
-                    {latestNews[0].category}
-                  </span>
-                  <h3 className="font-serif text-xl font-bold text-gray-900 group-hover:underline leading-snug">
-                    {latestNews[0].title}
-                  </h3>
-                  <p className="text-xs text-gray-medium mt-2">
-                    {latestNews[0].author}
-                    <span className="mx-1.5">&middot;&mdash;&middot;</span>
-                    {latestNews[0].date}
-                  </p>
-                </div>
-              </Link>
+          <ChartCard title="Segmentacion Politica" subtitle="Clasificacion de actores">
+            <ResponsiveContainer width="100%" height={180}>
+              <PieChart>
+                <Pie data={segmentacionPolitica} cx="50%" cy="50%" innerRadius={40} outerRadius={70} paddingAngle={3} dataKey="value">
+                  {segmentacionPolitica.map((entry, i) => (
+                    <Cell key={i} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip {...TT} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex flex-wrap gap-2 sm:gap-3 mt-2">
+              {segmentacionPolitica.map((s) => (
+                <span key={s.name} className="flex items-center gap-1.5 text-[10px] text-gray-medium">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
+                  {s.name} ({s.value}%)
+                </span>
+              ))}
             </div>
-          )}
-
-          {/* Right column - stacked small articles */}
-          <div className="flex flex-col gap-5">
-            {latestNews.slice(1, 4).map((article) => (
-              <Link
-                key={article.slug}
-                to={`/article/${article.slug}`}
-                className="group flex gap-4 no-underline"
-              >
-                <div className="w-24 h-20 flex-shrink-0 overflow-hidden">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="flex flex-col justify-center">
-                  <h4 className="font-serif text-sm font-bold text-gray-900 group-hover:underline leading-snug line-clamp-2">
-                    {article.title}
-                  </h4>
-                  <p className="text-[11px] text-gray-medium mt-1">
-                    {article.author}
-                    <span className="mx-1">&middot;&mdash;&middot;</span>
-                    {article.date}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          </ChartCard>
         </div>
-
-        {/* Second row of latest news - 3 columns */}
-        {latestNews.length > 3 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {latestNews.slice(3, 6).map((article) => (
-              <ArticleCard key={article.slug} article={article} />
-            ))}
-          </div>
-        )}
       </section>
 
-      {/* D) World News Section */}
-      <section className="mb-14">
-        <SectionTitle title="WORLD NEWS" link="/world-news" />
+      {/* D) Municipios clave */}
+      <section className="mb-8 sm:mb-14">
+        <SectionTitle title="Municipios Clave" subtitle="Monitoreo de 15 municipios prioritarios" link="/territorial" />
+        <div className="border border-gray-border rounded-sm overflow-hidden mt-4 sm:mt-6">
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs sm:text-sm font-sans min-w-[500px]">
+              <thead>
+                <tr className="border-b border-gray-border bg-gray-light">
+                  <th className="text-left px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-medium">Municipio</th>
+                  <th className="text-right px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-medium">Poblacion</th>
+                  <th className="text-right px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-medium">Aprobacion</th>
+                  <th className="text-center px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-medium">Alertas</th>
+                  <th className="text-center px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-medium">Marginacion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {municipiosClave.slice(0, 8).map((m) => (
+                  <tr key={m.municipio} className="border-b border-gray-border hover:bg-gray-light/50 transition-colors">
+                    <td className="px-3 sm:px-4 py-2.5 sm:py-3 text-dark font-medium">{m.municipio}</td>
+                    <td className="px-3 sm:px-4 py-2.5 sm:py-3 text-right text-gray-medium">{m.poblacion}</td>
+                    <td className="px-3 sm:px-4 py-2.5 sm:py-3 text-right">
+                      <span className={`font-semibold ${m.aprobacion >= 60 ? "text-green-600" : m.aprobacion >= 50 ? "text-amber-500" : "text-red-500"}`}>
+                        {m.aprobacion}%
+                      </span>
+                    </td>
+                    <td className="px-3 sm:px-4 py-2.5 sm:py-3 text-center">
+                      {m.alertas > 0 ? (
+                        <span className="inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-100 text-red-600 text-[10px] sm:text-xs font-bold">
+                          {m.alertas}
+                        </span>
+                      ) : (
+                        <span className="text-green-600 text-[10px] sm:text-xs font-medium">OK</span>
+                      )}
+                    </td>
+                    <td className="px-3 sm:px-4 py-2.5 sm:py-3 text-center">
+                      <span className={`text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-sm font-medium ${
+                        m.marginacion === "Muy bajo" ? "bg-green-100 text-green-700" :
+                        m.marginacion === "Bajo" ? "bg-blue-100 text-blue-700" :
+                        "bg-amber-100 text-amber-700"
+                      }`}>
+                        {m.marginacion}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          {/* Featured world article with overlay */}
-          {worldNews[0] && (
-            <div className="lg:col-span-2">
-              <Link
-                to={`/article/${worldNews[0].slug}`}
-                className="group relative block overflow-hidden no-underline"
-              >
-                <img
-                  src={worldNews[0].image}
-                  alt={worldNews[0].title}
-                  className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-white bg-white/20 backdrop-blur-sm px-2 py-0.5 mb-3">
-                    {worldNews[0].category}
-                  </span>
-                  <h3 className="font-serif text-2xl font-bold text-white leading-snug">
-                    {worldNews[0].title}
-                  </h3>
-                  <p className="text-sm text-gray-300 mt-2">
-                    By {worldNews[0].author}
-                    <span className="mx-1.5">&middot;</span>
-                    {worldNews[0].date}
-                  </p>
-                </div>
-              </Link>
+      {/* E) Temas virales */}
+      <section className="mb-8 sm:mb-14">
+        <SectionTitle title="Tendencias Digitales" subtitle="Temas virales en redes sociales" link="/sentimiento-digital" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+          {temasVirales.map((t) => (
+            <div key={t.tema} className="border border-gray-border rounded-sm p-4 sm:p-5 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-2 gap-2">
+                <span className="text-primary font-serif font-bold text-sm sm:text-base">{t.tema}</span>
+                <span className={`text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-sm font-semibold uppercase shrink-0 ${
+                  t.sentimiento === "positivo" ? "bg-green-100 text-green-700" :
+                  t.sentimiento === "negativo" ? "bg-red-100 text-red-700" :
+                  "bg-gray-100 text-gray-600"
+                }`}>
+                  {t.sentimiento}
+                </span>
+              </div>
+              <p className="text-xl sm:text-2xl font-bold text-dark font-serif">{t.menciones.toLocaleString()}</p>
+              <p className="text-[10px] sm:text-[11px] text-gray-medium">menciones</p>
+              <p className="text-[10px] sm:text-xs text-green-600 font-medium mt-1">{t.cambio} en 7 dias</p>
             </div>
-          )}
-
-          {/* Right stacked articles */}
-          <div className="flex flex-col gap-6">
-            {worldNews.slice(1, 3).map((article) => (
-              <Link
-                key={article.slug}
-                to={`/article/${article.slug}`}
-                className="group no-underline"
-              >
-                <div className="overflow-hidden">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <h4 className="font-serif text-base font-bold text-gray-900 mt-3 group-hover:underline leading-snug line-clamp-2">
-                  {article.title}
-                </h4>
-                <p className="text-xs text-gray-medium mt-1">
-                  Examining the challenges and responses of nations
-                </p>
-                <p className="text-[11px] text-gray-medium mt-1">
-                  {article.author}
-                  <span className="mx-1">&middot;&mdash;&middot;</span>
-                  {article.date}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* E) Technology News Section */}
-      <section className="mb-14">
-        <SectionTitle title="TECHNOLOGY NEWS" link="/technology" />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          {technologyNews.slice(0, 4).map((article) => (
-            <ArticleCard key={article.slug} article={article} />
           ))}
         </div>
       </section>
 
-      {/* F) Podcasts Section */}
-      <section className="mb-14">
-        <SectionTitle title="PODCASTS" link="/podcast" />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {podcasts.slice(0, 6).map((podcast, i) => (
-            <Link
-              key={podcast.slug || i}
-              to={podcast.slug ? `/article/${podcast.slug}` : "#"}
-              className="group no-underline"
-            >
-              <div className="overflow-hidden">
-                <img
-                  src={podcast.image}
-                  alt={podcast.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+      {/* F) Transparencia */}
+      <section className="mb-8 sm:mb-14">
+        <SectionTitle title="Transparencia en Obras Publicas" subtitle="Avance de proyectos estrategicos" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+          {transparenciaObras.map((obra) => (
+            <div key={obra.obra} className="border border-gray-border rounded-sm p-4 sm:p-5 hover:shadow-md transition-shadow">
+              <h4 className="text-xs sm:text-sm font-serif font-bold text-dark mb-1">{obra.obra}</h4>
+              <p className="text-[10px] sm:text-xs text-gray-medium mb-3">{obra.presupuesto}</p>
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div
+                  className="h-2 rounded-full transition-all"
+                  style={{
+                    width: `${obra.avance}%`,
+                    backgroundColor: obra.avance >= 80 ? "#16a34a" : obra.avance >= 40 ? "#e63946" : "#f59e0b",
+                  }}
                 />
               </div>
-              <h4 className="text-sm font-semibold text-gray-900 mt-3 group-hover:underline leading-snug line-clamp-2">
-                {podcast.title}
-              </h4>
-              <p className="text-[11px] text-gray-medium mt-1">{podcast.date || "Sep 9, 2024"}</p>
-            </Link>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] sm:text-xs text-gray-medium">{obra.avance}% completado</span>
+                <span className={`text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-sm font-semibold ${
+                  obra.estado === "Por concluir" ? "bg-green-100 text-green-700" :
+                  obra.estado === "En curso" ? "bg-red-50 text-primary" :
+                  "bg-amber-100 text-amber-700"
+                }`}>
+                  {obra.estado}
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </section>

@@ -2,15 +2,15 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="mt-16">
+    <footer className="mt-10 sm:mt-16">
       <div className="border-t border-gray-border" />
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Logo */}
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-8">
           <Link to="/" className="no-underline">
-            <span className="font-serif text-2xl">
-              <span className="italic font-normal">The</span>{" "}
-              <span className="font-bold uppercase tracking-wider">NEWS</span>
+            <span className="font-serif text-xl sm:text-2xl">
+              <span className="italic font-normal">Pulso</span>{" "}
+              <span className="font-bold uppercase tracking-wider">Ciudadano</span>
               <span className="text-primary">*</span>
             </span>
           </Link>
@@ -18,47 +18,9 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <p className="text-xs text-gray-medium font-sans">
-            Copyright &copy; 2024 &middot; The News &middot; All rights reserved
+          <p className="text-[10px] sm:text-xs text-gray-medium font-sans">
+            Copyright &copy; 2026 &middot; Pulso Ciudadano &middot; Gobierno de Jalisco &middot; Powered by Mageova
           </p>
-
-          {/* Social icons */}
-          <div className="flex items-center gap-4">
-            {/* Instagram */}
-            <a href="#" aria-label="Instagram" className="text-gray-medium hover:text-dark transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-              </svg>
-            </a>
-
-            {/* LinkedIn */}
-            <a href="#" aria-label="LinkedIn" className="text-gray-medium hover:text-dark transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
-
-            {/* YouTube */}
-            <a href="#" aria-label="YouTube" className="text-gray-medium hover:text-dark transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
-
-            {/* Twitter/X */}
-            <a href="#" aria-label="Twitter" className="text-gray-medium hover:text-dark transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-
-            {/* Threads */}
-            <a href="#" aria-label="Threads" className="text-gray-medium hover:text-dark transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.751-.2 1.382-.706 2.496-1.506 3.312-1.023 1.044-2.46 1.597-4.27 1.643l-.08.001c-1.391-.016-2.592-.482-3.473-1.35-.87-.856-1.354-2.044-1.399-3.436-.005-.155-.005-.31 0-.465.1-3.07 2.288-4.972 5.725-4.972.345 0 .695.019 1.047.058l.042-.984-2.036-.085.084-2.012 2.036.085.055-1.28 2.012.084-.055 1.28 1.174.05c2.577.191 4.35 1.222 5.272 3.063.473.946.683 2.06.625 3.313l-2.013-.085c.04-.907-.082-1.7-.363-2.36-.525-1.036-1.634-1.706-3.296-1.993l-.048 1.135c2.215.654 3.525 2.322 3.58 4.622.006.154.006.308 0 .462-.05 1.634-.816 2.726-1.985 3.42-.003 0-.003.003-.003.003-.655.388-1.428.6-2.294.629-1.154-.03-2.072-.359-2.728-1.016-.504-.505-.81-1.18-.884-1.954-.004-.042-.007-.084-.01-.128.004-.044.007-.087.01-.128.074-.773.38-1.449.884-1.954.656-.656 1.574-.986 2.728-1.015.328.008.641.044.94.106l.058-1.37a9.343 9.343 0 00-.965-.076c-2.466 0-3.733 1.212-3.79 3.136a3.7 3.7 0 000 .355c.032.968.376 1.79.994 2.397.633.622 1.526.96 2.584.978l.06-.001c1.264-.033 2.255-.415 2.94-1.115.542-.553.89-1.317 1.043-2.272-.89-.375-1.94-.585-3.122-.606l-.08.001z" />
-              </svg>
-            </a>
-          </div>
         </div>
       </div>
     </footer>

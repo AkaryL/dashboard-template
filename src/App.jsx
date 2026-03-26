@@ -1,20 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
-import CategoryPage from "./pages/CategoryPage";
-import ArticlePage from "./pages/ArticlePage";
-import { newsData } from "./data/newsData";
+import DemograficoPage from "./pages/DemograficoPage";
+import TerritorialPage from "./pages/TerritorialPage";
+import PercepcionPage from "./pages/PercepcionPage";
+import SentimientoPage from "./pages/SentimientoPage";
+import ActoresPage from "./pages/ActoresPage";
 
 function App() {
   const categories = [
-    "World News",
-    "Politics",
-    "Business",
-    "Technology",
-    "Health",
-    "Sports",
-    "Culture",
-    "Podcast",
+    "Resumen",
+    "Demografico",
+    "Territorial",
+    "Percepcion",
+    "Sentimiento Digital",
+    "Actores y Riesgo",
   ];
 
   return (
@@ -22,19 +22,11 @@ function App() {
       <Routes>
         <Route element={<Layout categories={categories} />}>
           <Route path="/" element={<HomePage />} />
-          {categories.map((cat) => (
-            <Route
-              key={cat}
-              path={`/${cat.toLowerCase().replace(/\s+/g, "-")}`}
-              element={
-                <CategoryPage
-                  category={cat}
-                  articles={newsData[cat] || []}
-                />
-              }
-            />
-          ))}
-          <Route path="/article/:slug" element={<ArticlePage />} />
+          <Route path="/demografico" element={<DemograficoPage />} />
+          <Route path="/territorial" element={<TerritorialPage />} />
+          <Route path="/percepcion" element={<PercepcionPage />} />
+          <Route path="/sentimiento-digital" element={<SentimientoPage />} />
+          <Route path="/actores-y-riesgo" element={<ActoresPage />} />
         </Route>
       </Routes>
     </Router>
